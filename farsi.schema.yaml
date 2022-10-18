@@ -1,0 +1,170 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: farsi # 注意此 ID 與文件名裏 .schema.yaml 之前的部分相同
+  name: 波斯语输入方案      # 將在〔方案選單〕中顯示
+  version: "1.0"        # 這是文字類型而非整數或小數，如 "1.2.3"
+  author:
+    - Rime schema by 梨子
+  description:
+    波斯语输入方案测试。
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ farsi, Latin ]
+#  - name: half_shape
+#    states: [ 半角, 全角 ]
+#    reset: 0
+#  - name: simplification
+#    states: [ 漢字, 汉字 ]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - echo_translator
+    - punct_translator
+    - script_translator
+  filters:
+    - simplifier
+    - uniquifier
+
+key_binder:
+  import_preset: default
+  bindings:
+    - {accept: " ", send: "Shift+Return", when: has_menu}
+    - {accept: minus, send: minus, when: has_menu}
+    - {accept: "Return", send: " ", when: has_menu}
+
+punctuator:
+#  import_preset: default
+  half_shape:
+    "," : "٫"
+    ";" : "؛"
+    "'" : "،"
+    "`" : "ـ"
+    "?" : "؟"
+    "\"" : "،"
+    "~" : "…"
+    "." : "."
+    "<" : "«"
+    ">" : "»"
+  full_shape:
+    "," : "٫"
+    ";" : "؛"
+    "'" : "،"
+    "`" : "ـ"
+    "?" : "؟"
+    "\"" : "،"
+    "~" : "…"
+    "." : "."
+    "<" : "«"
+    ">" : "»"
+    
+
+speller:
+  alphabet: "\\-_|ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+  delimiter: " /"
+#  algebra:
+#    - abbrev/^([bcdghjkmnpqrstvxz]).+$/$1/
+
+translator:
+  dictionary: farsi
+  spelling_hints: 0
+  prism: farsi
+  preedit_format:
+    - xform/ //
+    - xform/^|(?<=[aedrzZouOUw])/@/
+    - xform/-/ـ/
+    - xform/_/ـ/
+    #- xform/@la/لا/
+    #- xform/la/لا/
+#字母表
+    - xform/a/ا/
+    - xform/A/آ/
+    - xform/b/ب/
+    - xform/B/پ/
+    - xform/c/چ/
+    - xform/C/ظ/
+    - xform/d/د/
+    - xform/D/ذ/
+    - xform/e/ه/
+    - xform/E/ة/
+    - xform/f/ف/
+    - xform/F/ف/
+    - xform/g/گ/
+    - xform/G/ق/
+    - xform/h/ه/
+    - xform/H/ح/
+    - xform/i/ی/
+    - xform/I/ئ/
+    - xform/j/ج/
+    - xform/J/ط/
+    - xform/k/ک/
+    - xform/K/ك/
+    - xform/l/ل/
+    - xform/L/ك/
+    - xform/m/م/
+    - xform/M/می/
+    - xform/n/ن/
+    - xform/N/ها/
+    - xform/o/و/
+    - xform/O/ؤ/
+    - xform/p/پ/
+    - xform/P/يژ/
+    - xform/q/ق/
+    - xform/Q/ء/
+    - xform/r/ر/
+    - xform/R/ژ/
+    - xform/s/س/
+    - xform/S/ص/
+    - xform/t/ت/
+    - xform/T/ث/
+    - xform/v/و/
+    - xform/V/ؤ/
+    - xform/x/خ/
+    - xform/X/ض/
+    - xform/y/ي/
+    - xform/z/ز/
+    - xform/Z/ذ/
+#特殊
+    - xform/u/ش/
+    - xform/U/أ/
+    - xform/Y/إ/
+    - xform/w/ع/
+    - xform/W/غ/
+    - xform/\\/ط/
+    - xform/\|/ظ/
+#数字
+    - xform/1/۱/
+    - xform/2/۲/
+    - xform/3/۳/
+    - xform/4/۴/
+    - xform/5/۵/
+    - xform/6/۶/
+    - xform/7/۷/
+    - xform/8/۸/
+    - xform/9/۹/
+    - xform/0/۰/
+
+    - xform/@// # erase the final @ after left breakings
+    - xform/[ABDFHIJKLMPQRTVWXY]/؟/
+
+menu:
+  alternative_select_keys: "@"
+  page_size: 1
